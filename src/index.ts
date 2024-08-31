@@ -4,6 +4,10 @@ import { Timer, scrapeURL, parseHTML, aiParseHTML } from "./lib.js";
 const app = express();
 const port = 3000;
 
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello World. The app is, in fact, running. Freaking sick!");
+});
+
 app.get("/artist/:artist_id", async (req: Request, res: Response) => {
   const timer = new Timer();
 

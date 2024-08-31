@@ -7,6 +7,8 @@ import puppeteer from "puppeteer";
 import { promisify } from "util";
 import { exec } from "child_process";
 
+dotenv.config()
+
 export async function getPuppeteerBrowser() {
 
   if (process.env.ENVIORNMENT != "development") {
@@ -21,8 +23,6 @@ export async function getPuppeteerBrowser() {
 
   return await puppeteer.launch()
 }
-
-dotenv.config()
 
 export async function scrapeURL(url: string): Promise<string> {
 
