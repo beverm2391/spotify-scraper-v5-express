@@ -4,12 +4,29 @@ import * as cheerio from 'cheerio';
 import OpenAI from "openai";
 import dotenv from 'dotenv'
 import puppeteer from "puppeteer";
+import { promisify } from "util";
+import { exec } from "child_process";
+
+export async function getPuppeteerBrowser() {
+
+  if (process.env.ENVIORNMENT != "development") {
+    // For replit deployment. see https://replit.com/@AllailQadrillah/Running-Puppeteer-in-Replit#index.js
+    const { stdout: chromiumPath } = await promisify(exec)("which chromium")
+    const browser = await puppeteer.launch({
+      headless: false,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      executablePath: chromiumPath.trim()
+    });
+  }
+
+  return await puppeteer.launch()
+}
 
 dotenv.config()
 
 export async function scrapeURL(url: string): Promise<string> {
 
-  const browser = await puppeteer.launch()
+  const browser = await getPuppeteerBrowser()
   const page = await browser.newPage();
 
   try {
