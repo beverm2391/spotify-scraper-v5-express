@@ -13,6 +13,7 @@ export async function getPuppeteerBrowser() {
 
   if (process.env.ENVIORNMENT != "development") {
     // For replit deployment. see https://replit.com/@AllailQadrillah/Running-Puppeteer-in-Replit#index.js
+    const { stdout: chromiumPath_ } = await promisify(exec)("which chromium")
     const { stdout: chromiumPath } = await promisify(exec)("which chromium")
     const browser = await puppeteer.launch({
       headless: false,
